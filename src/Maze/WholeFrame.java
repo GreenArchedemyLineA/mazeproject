@@ -1,5 +1,6 @@
 package Maze;
 
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -11,10 +12,12 @@ public class WholeFrame extends JFrame {
 
 	private PlayerLocationService playerLocationService;
 	private JLabel backgroundMap;
+	private int backgroundMapWidth;
+	private int backgroundMapHeight;
 
 	public WholeFrame() {
 		this.playerLocationService = new PlayerLocationService();
-		this.playerLocationService.getMazeArr();
+//		this.playerLocationService.getMazeArr();
 
 		// =========김유주 작성===========
 
@@ -24,10 +27,20 @@ public class WholeFrame extends JFrame {
 	}
 
 	private void initData() {
-		backgroundMap = new JLabel(new ImageIcon("images/background.png"));
+		// ===========이현서 작성 ========================
+		ImageIcon icon = new ImageIcon("images/background.png");
+		Image backgroundimage = icon.getImage();
+		this.backgroundMapWidth = icon.getIconWidth() / 2;
+		this.backgroundMapHeight = icon.getIconHeight() / 2;
+		Image changeScaleImage = backgroundimage.getScaledInstance(this.backgroundMapWidth, this.backgroundMapHeight,
+				Image.SCALE_SMOOTH);
+		ImageIcon changeScaleIcon = new ImageIcon(changeScaleImage);
+//		backgroundMap = new JLabel(new ImageIcon("images/background.png"));
+		backgroundMap = new JLabel(changeScaleIcon);
+		// ============================================
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setContentPane(backgroundMap);
-		setSize(1759, 1410);
+		setSize(this.backgroundMapWidth, this.backgroundMapHeight);
 
 	}
 
