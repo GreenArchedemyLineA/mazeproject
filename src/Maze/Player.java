@@ -95,13 +95,28 @@ public class Player extends JLabel implements Movable {
 
 	}
 
-	public void space() {
+	public void space(int number) {
 		// 유주씨가 만들어놓은 어떠한 이벤트
-		int stateDirection = 2;
-		boolean success = this.playerLocationService.move(stateDirection);
+		boolean success = this.playerLocationService.move(number);
 		if(success) {
-			this.x += 180;
-			setLocation(this.x, this.y);
+			switch(number) {
+			case 1:
+				this.x -= 180;
+				setLocation(this.x, this.y);
+				break;
+			case 2:
+				this.x += 180;
+				setLocation(this.x, this.y);
+				break;
+			case 3:
+				this.y -= 90;
+				setLocation(this.x, this.y);
+				break;
+			case 4:
+				this.y += 90;
+				setLocation(this.x, this.y);
+				break;
+			}
 		}
 	}
 
@@ -120,5 +135,12 @@ public class Player extends JLabel implements Movable {
 	public void setRight(boolean isRight) {
 		this.isRight = isRight;
 	}
+
+	public int getX() {
+		return x;
+	}
 	
+	public int getY() {
+		return y;
+	}
 }

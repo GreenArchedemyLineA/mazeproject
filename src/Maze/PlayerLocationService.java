@@ -128,6 +128,15 @@ public class PlayerLocationService implements Movable {
 		} else {
 			return false;
 		}
+	}
+
+	public int getPlayerX() {
+		return playerX;
+	}
+
+	public int getPlayerY() {
+		return playerY;
 	}	
+	
 	
 }

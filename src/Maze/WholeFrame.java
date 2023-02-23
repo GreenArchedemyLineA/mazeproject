@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -19,10 +20,13 @@ public class WholeFrame extends JFrame {
 	private JLabel backgroundMap;
 	private ImageIcon arrowIcon;
 	private JLabel[] arrows = new JLabel[25];
+	private int[][] records = new int[5][5];
+	private Player player;
+	private Arrow arrow;
+
 
 	private int backgroundMapWidth;
 	private int backgroundMapHeight;
-	private Player player; // ===배진석 작성===
 
 	public WholeFrame() {
 		this.playerLocationService = new PlayerLocationService();
@@ -34,6 +38,8 @@ public class WholeFrame extends JFrame {
 	}
 
 	private void initData() {
+		Random rand = new Random();
+		this.arrow = new Arrow();
 		ImageIcon icon = new ImageIcon("images/background.png");
 		Image backgroundImage = icon.getImage();
 		this.backgroundMapWidth = icon.getIconWidth() / 2;
@@ -41,28 +47,47 @@ public class WholeFrame extends JFrame {
 		Image changeScaleImage = backgroundImage.getScaledInstance(this.backgroundMapWidth, this.backgroundMapHeight,
 				Image.SCALE_SMOOTH);
 		ImageIcon changeScaleIcon = new ImageIcon(changeScaleImage);
-		ImageIcon arrowOriginIcon = new ImageIcon("images/arrow.png");
-		Image arrowImage = arrowOriginIcon.getImage();
 
-		Image changeScaleArrowImage = arrowImage.getScaledInstance(arrowOriginIcon.getIconWidth() / 2,
-				arrowOriginIcon.getIconHeight() / 2, Image.SCALE_SMOOTH);
+		backgroundMap = new JLabel(changeScaleIcon);
+
+		// ============================================
 
 		this.backgroundMap = new JLabel(changeScaleIcon);
-		this.arrowIcon = new ImageIcon(changeScaleArrowImage);
 		this.player = new Player(this.playerLocationService);
 		this.backgroundMap.add(player);
 		int arrowX = 30;
 		int arrowY = 30;
-		for (int i = 0; i < 25; i++) {
-			arrows[i] = new JLabel(this.arrowIcon);
-			arrows[i].setSize(90, 80);
-			backgroundMap.add(arrows[i]);
-			arrows[i].setLocation(arrowX, arrowY);
-			arrowX += 180;
-			if (i % 5 == 4) {
-				arrowX = 30;
-				arrowY += 90;
+		for (int i = 0; i < 5; i++) {
+			for(int j = 0; j< 5; j++) {
+				int randomNumber = rand.nextInt(4);
+				arrows[i] = new JLabel(this.arrow.getArrowImages(randomNumber));
+				records[i][j] = randomNumber;
+				arrows[i].setSize(90, 80);
+				backgroundMap.add(arrows[i]);
+				switch(randomNumber) {
+				// left
+				case 0:
+					arrows[i].setLocation(arrowX, arrowY);
+					break;
+				// right
+				case 1:
+					arrows[i].setLocation(arrowX, arrowY-20);
+					break;
+				// up
+				case 2:
+					arrows[i].setLocation(arrowX-10, arrowY-10);
+					break;
+				// down
+				case 3:
+					arrows[i].setLocation(arrowX+10, arrowY-10);
+					break;
+				}
+				arrowX += 180;
+				if (j == 4) {
+					arrowX = 30;
+					arrowY += 90;
 
+				}
 			}
 		}
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -96,7 +121,10 @@ public class WholeFrame extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_UP:
-					player.space();
+					
+					int playerX = playerLocationService.getPlayerX();
+					int playerY = playerLocationService.getPlayerY();					
+					player.space(records[playerY][playerX]+1);
 					break;
 				case KeyEvent.VK_RIGHT:
 					if (!player.isRight()) {
