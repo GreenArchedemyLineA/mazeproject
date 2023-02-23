@@ -14,11 +14,12 @@ public class WholeFrame extends JFrame {
 	private JLabel backgroundMap;
 	private int backgroundMapWidth;
 	private int backgroundMapHeight;
-	//private Player player; // ===배진석 작성=== 
+	private Player player; // ===배진석 작성=== 
 
+	
 	public WholeFrame() {
 		this.playerLocationService = new PlayerLocationService();
-//		this.playerLocationService.getMazeArr();
+		
 
 		// =========김유주 작성===========
 
@@ -42,6 +43,9 @@ public class WholeFrame extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setContentPane(backgroundMap);
 		setSize(this.backgroundMapWidth, this.backgroundMapHeight);
+		//==================배진석 작성=========================
+		player = new Player();
+		
 
 	}
 
@@ -50,6 +54,8 @@ public class WholeFrame extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
+		add(player);
+		
 
 	}
 	// ====================================//
@@ -67,6 +73,20 @@ public class WholeFrame extends JFrame {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_UP:
 					playerLocationService.move(1);
+					System.out.println("위");
+					player.up();
+					break;
+				case KeyEvent.VK_DOWN:
+					System.out.println("아래");
+					player.down();
+					break;
+				case KeyEvent.VK_RIGHT:
+					System.out.println("오른쪽");
+					player.right();
+					break;
+				case KeyEvent.VK_LEFT:
+					System.out.println("왼쪽");
+					player.left();
 					break;
 				}
 			}
