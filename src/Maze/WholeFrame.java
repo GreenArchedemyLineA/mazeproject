@@ -49,27 +49,19 @@ public class WholeFrame extends JFrame {
 		int arrowX = 30;
 		int arrowY = 30;
 		for (int i = 0; i < 25; i++) {
+
 			arrows[i] = new JLabel(new ImageIcon("images/arrow.png"));
 			arrows[i].setSize(100, 100);
 			backgroundMap.add(arrows[i]);
 			arrows[i].setLocation(arrowX, arrowY);
 			arrowX += 180;
-			if(i>=6) {
-				arrowX=30;
-				arrows[i].setLocation(arrowX,arrowY+90);
-				arrowX+=180;
-				i++;
+
+			if (i % 5 == 4) {
+				arrowX = 30;
+				arrowY += 90;
+
 			}
-			
 		}
-//		for (int i = 5; i < 10; i++) {
-//			arrows[i] = new JLabel(new ImageIcon("images/arrow.png"));
-//			arrows[i].setSize(100, 100);
-//			backgroundMap.add(arrows[i]);
-//			arrows[i].setLocation(arrowX, arrowY+40);
-//			
-//			
-//		}
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setContentPane(backgroundMap);
