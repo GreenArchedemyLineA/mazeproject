@@ -21,6 +21,7 @@ public class WholeFrame extends JFrame {
 
 	private int backgroundMapWidth;
 	private int backgroundMapHeight;
+	//private Player player; // ===배진석 작성=== 
 
 	public WholeFrame() {
 		this.playerLocationService = new PlayerLocationService();

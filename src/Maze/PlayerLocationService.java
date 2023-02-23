@@ -34,7 +34,6 @@ public class PlayerLocationService implements Movable {
 			System.out.println();
 		}
 		System.out.println("===============================");
-
 		move(2);
 		
 		for (int i = 0; i < this.mazeArr.length; i++) {
