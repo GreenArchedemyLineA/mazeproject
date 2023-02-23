@@ -26,7 +26,6 @@ public class WholeFrame extends JFrame {
 	public WholeFrame() {
 		this.playerLocationService = new PlayerLocationService();
 //		this.playerLocationService.getMazeArr();
-
 		// =========김유주 작성===========
 
 		initData();
@@ -102,6 +101,7 @@ public class WholeFrame extends JFrame {
 					playerLocationService.move(1);
 					break;
 				}
+				
 			}
 		});
 	}

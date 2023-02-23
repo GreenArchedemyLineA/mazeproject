@@ -26,7 +26,7 @@ public class PlayerLocationService implements Movable {
 	/**
 	 *  로직 테스트하는 코드(Test Code)
 	 */
-	public void getMazeArr() {
+	public void testMazeArr() {
 		for (int i = 0; i < this.mazeArr.length; i++) {
 			for (int j = 0; j < this.mazeArr[0].length; j++) {
 				System.out.print(this.mazeArr[i][j]);
@@ -48,6 +48,7 @@ public class PlayerLocationService implements Movable {
 		this.mazeArr = mazeArr;
 	}
 
+	// MOVE
 	public void move(int directionState) {
 		switch (directionState) {
 		case 1:
