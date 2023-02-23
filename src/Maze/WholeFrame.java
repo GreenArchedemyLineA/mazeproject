@@ -62,15 +62,7 @@ public class WholeFrame extends JFrame {
 			}
 			
 		}
-//		for (int i = 5; i < 10; i++) {
-//			arrows[i] = new JLabel(new ImageIcon("images/arrow.png"));
-//			arrows[i].setSize(100, 100);
-//			backgroundMap.add(arrows[i]);
-//			arrows[i].setLocation(arrowX, arrowY+40);
-//			
-//			
-//		}
-
+		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setContentPane(backgroundMap);
 		setSize(this.backgroundMapWidth, this.backgroundMapHeight);
