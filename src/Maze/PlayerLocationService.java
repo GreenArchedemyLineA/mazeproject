@@ -1,15 +1,15 @@
 package Maze;
 
-import java.util.Random;
-
-public class PlayerLocationService implements Movable{
+public class PlayerLocationService implements Movable {
 	private final int MAPSIZE = 5;
 	private int playerX, playerY;
 	private int[][] mazeArr = new int[MAPSIZE][MAPSIZE];
+	private boolean gameClear;
 
 	public PlayerLocationService() {
 		this.playerX = 0;
 		this.playerY = 0;
+		this.gameClear = false;
 		mazeInitial(this.mazeArr);
 	}
 
@@ -23,6 +23,9 @@ public class PlayerLocationService implements Movable{
 		return mazeArr;
 	}
 
+	/**
+	 *  로직 테스트하는 코드(Test Code)
+	 */
 	public void getMazeArr() {
 		for (int i = 0; i < this.mazeArr.length; i++) {
 			for (int j = 0; j < this.mazeArr[0].length; j++) {
@@ -31,17 +34,8 @@ public class PlayerLocationService implements Movable{
 			System.out.println();
 		}
 		System.out.println("===============================");
-		
-		// testCode
-//		int x = 0;
-//		Random rand = new Random();
-//		while(x < 100) {
-//			move(rand.nextInt(4)+1);
-//			x++;
-//		}
-// 		testsetest
-		
 		move(2);
+		
 		for (int i = 0; i < this.mazeArr.length; i++) {
 			for (int j = 0; j < this.mazeArr[0].length; j++) {
 				System.out.print(this.mazeArr[i][j]);
@@ -53,9 +47,9 @@ public class PlayerLocationService implements Movable{
 	public void setMazeArr(int[][] mazeArr) {
 		this.mazeArr = mazeArr;
 	}
-	
+
 	public void move(int directionState) {
-		switch(directionState) {
+		switch (directionState) {
 		case 1:
 			left();
 			break;
@@ -70,50 +64,66 @@ public class PlayerLocationService implements Movable{
 			break;
 		}
 	}
-	
-	
+
 	@Override
 	public void left() {
 		this.mazeArr[this.playerY][this.playerX] = 0;
 		this.playerX -= 1;
 		try {
-			this.mazeArr[this.playerY][this.playerX]=1;
-		}catch(ArrayIndexOutOfBoundsException e) {
+			this.mazeArr[this.playerY][this.playerX] = 1;
+		} catch (ArrayIndexOutOfBoundsException e) {
 			this.playerX = 0;
 			this.mazeArr[this.playerY][this.playerX] = 1;
+		} finally {
+			this.gameClear = gameWinCheck(this.playerX, this.playerY);
 		}
 	}
+
 	@Override
 	public void right() {
 		this.mazeArr[this.playerY][this.playerX] = 0;
 		this.playerX += 1;
 		try {
-			this.mazeArr[this.playerY][this.playerX]=1;
-		}catch(ArrayIndexOutOfBoundsException e) {
+			this.mazeArr[this.playerY][this.playerX] = 1;
+		} catch (ArrayIndexOutOfBoundsException e) {
 			this.playerX = MAPSIZE - 1;
 			this.mazeArr[this.playerY][this.playerX] = 1;
+		} finally {
+			this.gameClear = gameWinCheck(this.playerX, this.playerY);
 		}
 	}
+
 	@Override
 	public void up() {
 		this.mazeArr[this.playerY][this.playerX] = 0;
 		this.playerY -= 1;
 		try {
-			this.mazeArr[this.playerY][this.playerX]=1;
-		}catch(ArrayIndexOutOfBoundsException e) {
+			this.mazeArr[this.playerY][this.playerX] = 1;
+		} catch (ArrayIndexOutOfBoundsException e) {
 			this.playerY = 0;
 			this.mazeArr[this.playerY][this.playerX] = 1;
 		}
 	}
+
 	@Override
 	public void down() {
 		this.mazeArr[this.playerY][this.playerX] = 0;
 		this.playerY += 1;
 		try {
-			this.mazeArr[this.playerY][this.playerX]=1;
-		}catch(ArrayIndexOutOfBoundsException e) {
+			this.mazeArr[this.playerY][this.playerX] = 1;
+		} catch (ArrayIndexOutOfBoundsException e) {
 			this.playerY = MAPSIZE - 1;
 			this.mazeArr[this.playerY][this.playerX] = 1;
+		} finally {
+			this.gameClear = gameWinCheck(this.playerX, this.playerY);
+		}
+	}
+
+	public boolean gameWinCheck(int playerX, int playerY) {
+		if (playerX == MAPSIZE && playerY == MAPSIZE) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }
