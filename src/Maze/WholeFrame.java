@@ -17,8 +17,11 @@ public class WholeFrame extends JFrame {
 
 	private PlayerLocationService playerLocationService;
 	private JLabel backgroundMap;
+	private ImageIcon arrowIcon;
 	private JLabel[] arrows = new JLabel[25];
-
+	
+	
+	
 	private int backgroundMapWidth;
 	private int backgroundMapHeight;
 	//private Player player; // ===배진석 작성=== 
@@ -36,33 +39,40 @@ public class WholeFrame extends JFrame {
 	private void initData() {
 		// ===========이현서 작성 ========================
 		ImageIcon icon = new ImageIcon("images/background.png");
-		Image backgroundimage = icon.getImage();
+		Image backgroundImage = icon.getImage();
 		this.backgroundMapWidth = icon.getIconWidth() / 2;
 		this.backgroundMapHeight = icon.getIconHeight() / 2;
-		Image changeScaleImage = backgroundimage.getScaledInstance(this.backgroundMapWidth, this.backgroundMapHeight,
+		Image changeScaleImage = backgroundImage.getScaledInstance(this.backgroundMapWidth, this.backgroundMapHeight,
 				Image.SCALE_SMOOTH);
 		ImageIcon changeScaleIcon = new ImageIcon(changeScaleImage);
 		backgroundMap = new JLabel(changeScaleIcon);
+		
+		ImageIcon arrowOriginIcon = new ImageIcon("images/arrow.png");
+		Image arrowImage = arrowOriginIcon.getImage();
+		
+		Image changeScaleArrowImage = arrowImage.getScaledInstance(arrowOriginIcon.getIconWidth()/2, arrowOriginIcon.getIconHeight()/2, Image.SCALE_SMOOTH);
+		this.arrowIcon = new ImageIcon(changeScaleArrowImage);
+		
 		// ============================================
 
 		// ===================김유주 작성==================
 		int arrowX = 30;
 		int arrowY = 30;
 		for (int i = 0; i < 25; i++) {
-			arrows[i] = new JLabel(new ImageIcon("images/arrow.png"));
-			arrows[i].setSize(100, 100);
+
+			arrows[i] = new JLabel(this.arrowIcon);
+			arrows[i].setSize(90, 80);
 			backgroundMap.add(arrows[i]);
 			arrows[i].setLocation(arrowX, arrowY);
 			arrowX += 180;
-			if(i>=6) {
-				arrowX=30;
-				arrows[i].setLocation(arrowX,arrowY+90);
-				arrowX+=180;
-				i++;
+
+			if (i % 5 == 4) {
+				arrowX = 30;
+				arrowY += 90;
+
 			}
-			
 		}
-		
+
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setContentPane(backgroundMap);
 		setSize(this.backgroundMapWidth, this.backgroundMapHeight);

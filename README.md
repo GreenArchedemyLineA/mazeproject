@@ -14,3 +14,10 @@
 ### PlayerLogic & 게임IP 배경 이미지 조사 → 배진석
 
 ### ServiceLogic → 이현서
+
+<br> 
+
+***
+<br><br>   
+
+# 개발1일차(목)

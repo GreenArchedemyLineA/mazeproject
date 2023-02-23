@@ -11,7 +11,6 @@ public class Player{
 	public final int speed = 3; // 캐릭터 이동 속도
 	public final int jumpspeed = 2; // 캐릭터 점프 속도
 	
-	
 public void right() {
 	
 }
