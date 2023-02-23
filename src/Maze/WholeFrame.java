@@ -19,12 +19,10 @@ public class WholeFrame extends JFrame {
 	private JLabel backgroundMap;
 	private ImageIcon arrowIcon;
 	private JLabel[] arrows = new JLabel[25];
-	
-	
-	
+
 	private int backgroundMapWidth;
 	private int backgroundMapHeight;
-	//private Player player; // ===배진석 작성=== 
+	// private Player player; // ===배진석 작성===
 
 	public WholeFrame() {
 		this.playerLocationService = new PlayerLocationService();
@@ -46,13 +44,14 @@ public class WholeFrame extends JFrame {
 				Image.SCALE_SMOOTH);
 		ImageIcon changeScaleIcon = new ImageIcon(changeScaleImage);
 		backgroundMap = new JLabel(changeScaleIcon);
-		
-		ImageIcon arrowOriginIcon = new ImageIcon("images/arrow.png");
+
+		ImageIcon arrowOriginIcon = new ImageIcon("images/arrowL.png");
 		Image arrowImage = arrowOriginIcon.getImage();
-		
-		Image changeScaleArrowImage = arrowImage.getScaledInstance(arrowOriginIcon.getIconWidth()/2, arrowOriginIcon.getIconHeight()/2, Image.SCALE_SMOOTH);
+
+		Image changeScaleArrowImage = arrowImage.getScaledInstance(arrowOriginIcon.getIconWidth() / 2,
+				arrowOriginIcon.getIconHeight() / 2, Image.SCALE_SMOOTH);
 		this.arrowIcon = new ImageIcon(changeScaleArrowImage);
-		
+
 		// ============================================
 
 		// ===================김유주 작성==================
@@ -103,7 +102,7 @@ public class WholeFrame extends JFrame {
 					playerLocationService.move(1);
 					break;
 				}
-				
+
 			}
 		});
 	}
