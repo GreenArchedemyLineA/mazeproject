@@ -5,11 +5,13 @@ public class PlayerLocationService implements Movable {
 	private int playerX, playerY;
 	private int[][] mazeArr = new int[MAPSIZE][MAPSIZE];
 	private boolean gameClear;
+	private boolean movePossible;
 
 	public PlayerLocationService() {
 		this.playerX = 0;
 		this.playerY = 0;
 		this.gameClear = false;
+		this.movePossible = true;
 		mazeInitial(this.mazeArr);
 	}
 
@@ -33,15 +35,6 @@ public class PlayerLocationService implements Movable {
 			}
 			System.out.println();
 		}
-		System.out.println("===============================");
-		move(2);
-		
-		for (int i = 0; i < this.mazeArr.length; i++) {
-			for (int j = 0; j < this.mazeArr[0].length; j++) {
-				System.out.print(this.mazeArr[i][j]);
-			}
-			System.out.println();
-		}
 	}
 
 	public void setMazeArr(int[][] mazeArr) {
@@ -49,21 +42,22 @@ public class PlayerLocationService implements Movable {
 	}
 
 	// MOVE
-	public void move(int directionState) {
+	public boolean move(int directionState) {
 		switch (directionState) {
-		case 1:
-			left();
-			break;
-		case 2:
-			right();
-			break;
-		case 3:
-			up();
-			break;
-		case 4:
-			down();
-			break;
+		case 1:			
+				left();
+				break;
+		case 2:			
+				right();
+				break;
+		case 3:			
+				up();
+				break;
+		case 4:		
+				down();
+				break;
 		}
+		return this.movePossible;
 	}
 
 	@Override
@@ -72,9 +66,11 @@ public class PlayerLocationService implements Movable {
 		this.playerX -= 1;
 		try {
 			this.mazeArr[this.playerY][this.playerX] = 1;
+			this.movePossible = true;
 		} catch (ArrayIndexOutOfBoundsException e) {
 			this.playerX = 0;
 			this.mazeArr[this.playerY][this.playerX] = 1;
+			this.movePossible = false;
 		} finally {
 			this.gameClear = gameWinCheck(this.playerX, this.playerY);
 		}
@@ -86,9 +82,11 @@ public class PlayerLocationService implements Movable {
 		this.playerX += 1;
 		try {
 			this.mazeArr[this.playerY][this.playerX] = 1;
+			this.movePossible = true;
 		} catch (ArrayIndexOutOfBoundsException e) {
-			this.playerX = MAPSIZE - 1;
+			this.playerX -= 1;
 			this.mazeArr[this.playerY][this.playerX] = 1;
+			this.movePossible = false;
 		} finally {
 			this.gameClear = gameWinCheck(this.playerX, this.playerY);
 		}
@@ -100,9 +98,11 @@ public class PlayerLocationService implements Movable {
 		this.playerY -= 1;
 		try {
 			this.mazeArr[this.playerY][this.playerX] = 1;
+			this.movePossible = true;
 		} catch (ArrayIndexOutOfBoundsException e) {
 			this.playerY = 0;
 			this.mazeArr[this.playerY][this.playerX] = 1;
+			this.movePossible = false;
 		}
 	}
 
@@ -112,9 +112,11 @@ public class PlayerLocationService implements Movable {
 		this.playerY += 1;
 		try {
 			this.mazeArr[this.playerY][this.playerX] = 1;
+			this.movePossible = true;
 		} catch (ArrayIndexOutOfBoundsException e) {
-			this.playerY = MAPSIZE - 1;
+			this.playerY -= 1;
 			this.mazeArr[this.playerY][this.playerX] = 1;
+			this.movePossible = false;
 		} finally {
 			this.gameClear = gameWinCheck(this.playerX, this.playerY);
 		}
@@ -126,5 +128,6 @@ public class PlayerLocationService implements Movable {
 		} else {
 			return false;
 		}
-	}
+	}	
+	
 }
