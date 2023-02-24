@@ -21,3 +21,22 @@
 <br><br>   
 
 # 개발1일차(목)
+
+### 진석 → GameFrame안에있는 Player에 대한 클래스 설계 및 기능(메소드) 구현, 이미지 누끼
+### 유주 → GameFrame에 대한 기본적인 설계 및 배치   
+### 현서 →  ServiceLogic 틀 설계 및 구현
+<br>
+
+![Alt Text](./gif/video1.gif)
+
+<br>   
+
+# 개발2일차(금)
+
+### 유주 → ServiceLogic추가(움직임 제한), 몬스터, 게임종료 구현   
+### 현서 → Key를 통해 화살표 방향 변경로직 구현 <br>
+
+## 게임진행
+![Alt Text](./gif/gamePlay.gif)
+## 게임종료 및 게임 리셋
+![Alt Text](./gif/InitOver.gif)
