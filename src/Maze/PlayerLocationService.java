@@ -71,9 +71,7 @@ public class PlayerLocationService implements Movable {
 			this.playerX = 0;
 			this.mazeArr[this.playerY][this.playerX] = 1;
 			this.movePossible = false;
-		} finally {
-			this.gameClear = gameWinCheck(this.playerX, this.playerY);
-		}
+		} 
 	}
 
 	@Override
@@ -87,9 +85,7 @@ public class PlayerLocationService implements Movable {
 			this.playerX -= 1;
 			this.mazeArr[this.playerY][this.playerX] = 1;
 			this.movePossible = false;
-		} finally {
-			this.gameClear = gameWinCheck(this.playerX, this.playerY);
-		}
+		} 
 	}
 
 	@Override
@@ -117,18 +113,9 @@ public class PlayerLocationService implements Movable {
 			this.playerY -= 1;
 			this.mazeArr[this.playerY][this.playerX] = 1;
 			this.movePossible = false;
-		} finally {
-			this.gameClear = gameWinCheck(this.playerX, this.playerY);
-		}
+		} 
 	}
 
-	public boolean gameWinCheck(int playerX, int playerY) {
-		if (playerX == MAPSIZE && playerY == MAPSIZE) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 
 	public int getPlayerX() {
 		return playerX;
@@ -141,5 +128,7 @@ public class PlayerLocationService implements Movable {
 	public boolean isGameClear() {
 		return this.gameClear;
 	}
-
+	public void setGameClear(boolean gameClear) {
+		this.gameClear = gameClear;
+	}
 }

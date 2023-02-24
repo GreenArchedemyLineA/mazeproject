@@ -39,6 +39,7 @@ public class WholeFrame extends JFrame {
 		initData();
 		setInitLayout();
 		addEventListener();
+		mangagerThread();
 		new Thread(new BackgroundPlayerService(player)).start();
 	}
 
@@ -98,8 +99,12 @@ public class WholeFrame extends JFrame {
 					repaint();
 					break;
 				case KeyEvent.VK_UP:
-					player.space(records[playerY][playerX] + 1);
-					playerLocationService.testMazeArr();
+					if(playerX == 4 && playerY == 4 && records[playerY][playerX] == 3) {
+						player.setEnd();
+						playerLocationService.setGameClear(true);
+					}else {						
+						player.space(records[playerY][playerX] + 1);
+					}
 					break;
 				case KeyEvent.VK_RIGHT:
 					if (!player.isRight()) {
@@ -166,9 +171,7 @@ public class WholeFrame extends JFrame {
 			return;
 		} else {
 			if (direction < 0) {
-				System.out.println("위치값: " + records[playerLocationY][playerLocationX]);
 				int number = records[playerLocationY][playerLocationX] += direction;
-				System.out.println(number);
 				switch (number) {
 				case -1:
 					records[playerLocationY][playerLocationX] = 3;
@@ -240,10 +243,13 @@ public class WholeFrame extends JFrame {
 
 	public void mangagerThread() {
 		new Thread(() -> {
-			boolean flag = playerLocationService.isGameClear();
-			while (!flag) {
-
-				flag = playerLocationService.isGameClear();
+			while (playerLocationService.isGameClear()) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 			System.out.println("겜 클리어~!!");
 		}).start();

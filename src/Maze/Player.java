@@ -123,6 +123,10 @@ public class Player extends JLabel implements Movable {
 		}
 	}
 
+	public void setEnd() {
+		this.y += 155;
+		setLocation(this.x, this.y);
+	}
 	public boolean isLeft() {
 		return isLeft;
 	}
