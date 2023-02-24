@@ -10,18 +10,21 @@ public class Player extends JLabel implements Movable {
 	private final int DELAY = 100;
 	private int x;
 	private int y;
-	
+
 	private int playerWidth;
 	private int playerHeight;
 
 	private boolean isLeft;
 	private boolean isRight;
 	private boolean space; // 포털타기
-	private final int Speed = 3; // 캐릭터 이동 속도
-	private final int Jumpspeed = 2; // 캐릭터 점프 속도
+	private final int Speed = 1; // 캐릭터 이동 속도
+	private final int Jumpspeed = 1; // 캐릭터 점프 속도
+
+	private boolean WallCrash; // 벽 충돌 여부
 
 	private ImageIcon playerR, playerL;
 	private PlayerLocationService playerLocationService;
+
 	public Player(PlayerLocationService playerLocationService) {
 		this.playerLocationService = playerLocationService;
 		initData();
@@ -33,17 +36,19 @@ public class Player extends JLabel implements Movable {
 		ImageIcon iconR = new ImageIcon("images/playerR.png");
 		Image imageL = iconL.getImage();
 		Image imageR = iconR.getImage();
-		Image resizeL = imageL.getScaledInstance(iconL.getIconWidth()/5, iconL.getIconHeight()/7, Image.SCALE_SMOOTH);
-		Image resizeR = imageR.getScaledInstance(iconR.getIconWidth()/5, iconR.getIconHeight()/7, Image.SCALE_SMOOTH);
+		Image resizeL = imageL.getScaledInstance(iconL.getIconWidth() / 5, iconL.getIconHeight() / 7,
+				Image.SCALE_SMOOTH);
+		Image resizeR = imageR.getScaledInstance(iconR.getIconWidth() / 5, iconR.getIconHeight() / 7,
+				Image.SCALE_SMOOTH);
 		ImageIcon resizeIconL = new ImageIcon(resizeL);
 		ImageIcon resizeIconR = new ImageIcon(resizeR);
-		
+
 		this.playerL = resizeIconL;
 		this.playerR = resizeIconR;
-		
+
 		this.isLeft = false;
 		this.isRight = false;
-		
+
 		this.space = false;
 	}
 
@@ -98,8 +103,8 @@ public class Player extends JLabel implements Movable {
 	public void space(int number) {
 		// 유주씨가 만들어놓은 어떠한 이벤트
 		boolean success = this.playerLocationService.move(number);
-		if(success) {
-			switch(number) {
+		if (success) {
+			switch (number) {
 			case 1:
 				this.x -= 180;
 				setLocation(this.x, this.y);
@@ -139,8 +144,19 @@ public class Player extends JLabel implements Movable {
 	public int getX() {
 		return x;
 	}
-	
+
 	public int getY() {
 		return y;
 	}
+
+	public boolean isWallCrash() {
+		return WallCrash;
+	}
+
+	public void setWallCrash(boolean wallCrash) {
+		WallCrash = wallCrash;
+	}
+	
+
+
 }

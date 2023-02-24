@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+
 public class WholeFrame extends JFrame {
 
 	private PlayerLocationService playerLocationService;
@@ -34,12 +35,13 @@ public class WholeFrame extends JFrame {
 		initData();
 		setInitLayout();
 		addEventListener();
+		new Thread(new BackgroundPlayerService(player)).start();
 	}
 
 	private void initData() {
 		Random rand = new Random();
 		this.arrow = new Arrow();
-		ImageIcon icon = new ImageIcon("images/background.png");
+		ImageIcon icon = new ImageIcon("images/backgroundService.png");
 		Image backgroundImage = icon.getImage();
 		this.backgroundMapWidth = icon.getIconWidth() / 2;
 		this.backgroundMapHeight = icon.getIconHeight() / 2;
@@ -51,19 +53,20 @@ public class WholeFrame extends JFrame {
 
 		// ============================================
 
-		this.backgroundMap = new JLabel(changeScaleIcon);
+//		this.backgroundMap = new JLabel(changeScaleIcon);
 		this.player = new Player(this.playerLocationService);
 		this.backgroundMap.add(player);
 		int arrowX = 30;
 		int arrowY = 30;
 		for (int i = 0; i < 5; i++) {
-			for(int j = 0; j< 5; j++) {
+			for (int j = 0; j < 5; j++) {
 				int randomNumber = rand.nextInt(4);
+
 				arrows[j][i] = new JLabel(this.arrow.getArrowImages(randomNumber));
 				records[j][i] = randomNumber;
 				arrows[j][i].setSize(90, 80);
 				backgroundMap.add(arrows[j][i]);
-				switch(randomNumber) {
+				switch (randomNumber) {
 				// left
 				case 0:
 					arrows[j][i].setLocation(arrowX, arrowY);
@@ -89,6 +92,8 @@ public class WholeFrame extends JFrame {
 				}
 			}
 		}
+
+//		backgroundMap = new JLabel(new ImageIcon("images/background.png"));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setContentPane(backgroundMap);
 		setSize(this.backgroundMapWidth, this.backgroundMapHeight);
@@ -120,8 +125,9 @@ public class WholeFrame extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_UP:
-					
+					playerLocationService.testMazeArr();
 					int playerX = playerLocationService.getPlayerX();
+
 					int playerY = playerLocationService.getPlayerY();				
 					player.space(records[playerY][playerX]+1);
 					arrows[0][0].setIcon(arrow.getArrowImages(0));
