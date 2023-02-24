@@ -30,6 +30,7 @@ public class WholeFrame extends JFrame {
 	private RedKey redkey;
 	private BlueKey bluekey;
 
+	private StatePanel statePanel;
 	private int backgroundMapWidth;
 	private int backgroundMapHeight;
 
@@ -38,7 +39,7 @@ public class WholeFrame extends JFrame {
 		initData();
 		setInitLayout();
 		addEventListener();
-//		mangagerThread();
+		new Thread(new BackgroundPlayerService(player)).start();
 	}
 
 	private void initData() {
@@ -51,12 +52,16 @@ public class WholeFrame extends JFrame {
 		this.redkey = new RedKey();
 		this.bluekey = new BlueKey();
 		arrowRandomSetting(); // 복잡해서 함수로 따로빼냄2
+		this.statePanel = new StatePanel(this.redkey, this.bluekey);
+		this.statePanel.setSize(200, 200);
+		this.statePanel.setLocation(0, this.backgroundMapHeight - 200);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setContentPane(backgroundMap);
 		setSize(this.backgroundMapWidth, this.backgroundMapHeight);
 	}
 
 	private void setInitLayout() {
+		add(this.statePanel);
 		setLayout(null);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -84,9 +89,13 @@ public class WholeFrame extends JFrame {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_1:
 					setImageIcon(playerX, playerY, keyService.getDirectionService(redkey));
+					statePanel.setKeyCount(redkey);
+					repaint();
 					break;
 				case KeyEvent.VK_2:
 					setImageIcon(playerX, playerY, keyService.getDirectionService(bluekey));
+					statePanel.setKeyCount(bluekey);
+					repaint();
 					break;
 				case KeyEvent.VK_UP:
 					player.space(records[playerY][playerX] + 1);
@@ -109,7 +118,7 @@ public class WholeFrame extends JFrame {
 	}
 
 	public void setSizeImageIcon() {
-		ImageIcon icon = new ImageIcon("images/background.png");
+		ImageIcon icon = new ImageIcon("images/backgroundService3.png");
 		Image backgroundImage = icon.getImage();
 		this.backgroundMapWidth = icon.getIconWidth() / 2;
 		this.backgroundMapHeight = icon.getIconHeight() / 2;

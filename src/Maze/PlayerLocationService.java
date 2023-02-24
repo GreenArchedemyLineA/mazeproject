@@ -16,7 +16,7 @@ public class PlayerLocationService implements Movable {
 	}
 
 	public int[][] mazeInitial(int[][] mazeArr) {
-		for (int i = 0; i < mazeArr.length; i++) {
+		for (int i = 0; i < mazeArr.length; i++) { // 배열가로길이
 			for (int j = 0; j < mazeArr[0].length; j++) {
 				mazeArr[i][j] = 0;
 			}
@@ -141,4 +141,5 @@ public class PlayerLocationService implements Movable {
 	public boolean isGameClear() {
 		return this.gameClear;
 	}
+
 }
