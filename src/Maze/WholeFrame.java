@@ -25,7 +25,7 @@ public class WholeFrame extends JFrame {
 	private Arrow arrow;
 
 	private KeyService keyService;
-	
+
 	// RedKey:시계, BlueKey:반시계
 	private RedKey redkey;
 	private BlueKey bluekey;
@@ -38,6 +38,7 @@ public class WholeFrame extends JFrame {
 		initData();
 		setInitLayout();
 		addEventListener();
+//		mangagerThread();
 	}
 
 	private void initData() {
@@ -60,7 +61,6 @@ public class WholeFrame extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
-
 	}
 
 	public void addEventListener() {
@@ -84,14 +84,13 @@ public class WholeFrame extends JFrame {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_1:
 					setImageIcon(playerX, playerY, keyService.getDirectionService(redkey));
-					playerLocationService.testMazeArr();
 					break;
 				case KeyEvent.VK_2:
 					setImageIcon(playerX, playerY, keyService.getDirectionService(bluekey));
-					playerLocationService.testMazeArr();
 					break;
 				case KeyEvent.VK_UP:
 					player.space(records[playerY][playerX] + 1);
+					playerLocationService.testMazeArr();
 					break;
 				case KeyEvent.VK_RIGHT:
 					if (!player.isRight()) {
@@ -157,76 +156,88 @@ public class WholeFrame extends JFrame {
 		if (direction == 0) {
 			return;
 		} else {
-			if (records[playerLocationY][playerLocationX] + direction >= 4) {
-				records[playerLocationY][playerLocationX] = 0;
-				arrows[playerLocationY][playerLocationX].setLocation(
-						arrows[playerLocationY][playerLocationX].getX() - 10,
-						arrows[playerLocationY][playerLocationX].getY() + 10);
-				arrows[playerLocationY][playerLocationX]
-						.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
-			} else if (records[playerLocationY][playerLocationY] + direction <= -1) {
-				records[playerLocationY][playerLocationX] = 3;
-				arrows[playerLocationY][playerLocationX].setLocation(
-						arrows[playerLocationY][playerLocationX].getX() + 10,
-						arrows[playerLocationY][playerLocationX].getY() - 10);
-				arrows[playerLocationY][playerLocationX]
-						.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
-			} else {
-				if (direction < 0) {
-					int number = records[playerLocationY][playerLocationX] += direction;
-					switch (number) {
-					case 0:
-						arrows[playerLocationY][playerLocationX].setLocation(
-								arrows[playerLocationY][playerLocationX].getX() + 10,
-								arrows[playerLocationY][playerLocationX].getY() + 10);
-						arrows[playerLocationY][playerLocationX]
-								.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
-						break;
-					case 1:
-						arrows[playerLocationY][playerLocationX].setLocation(
-								arrows[playerLocationY][playerLocationX].getX() - 10,
-								arrows[playerLocationY][playerLocationX].getY() + 10);
-						arrows[playerLocationY][playerLocationX]
-								.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
-						break;
-					case 2:
-						arrows[playerLocationY][playerLocationX].setLocation(
-								arrows[playerLocationY][playerLocationX].getX() - 10,
-								arrows[playerLocationY][playerLocationX].getY() - 10);
-						arrows[playerLocationY][playerLocationX]
-								.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
-						break;
-					}
-
-				} else {
-					int number = records[playerLocationY][playerLocationX] += direction;
-					switch (number) {
-					case 1:
-						arrows[playerLocationY][playerLocationX].setLocation(
-								arrows[playerLocationY][playerLocationX].getX()-10,
-								arrows[playerLocationY][playerLocationX].getY()-10);
-						arrows[playerLocationY][playerLocationX]
-								.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
-						break;
-					case 2:
-						arrows[playerLocationY][playerLocationX].setLocation(
-								arrows[playerLocationY][playerLocationX].getX() + 10,
-								arrows[playerLocationY][playerLocationX].getY() - 10);
-						arrows[playerLocationY][playerLocationX]
-								.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
-						break;
-					case 3:
-						arrows[playerLocationY][playerLocationX].setLocation(
-								arrows[playerLocationY][playerLocationX].getX() + 10,
-								arrows[playerLocationY][playerLocationX].getY() + 10);
-						arrows[playerLocationY][playerLocationX]
-								.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
-						break;
-					}
+			if (direction < 0) {
+				System.out.println("위치값: " + records[playerLocationY][playerLocationX]);
+				int number = records[playerLocationY][playerLocationX] += direction;
+				System.out.println(number);
+				switch (number) {
+				case -1:
+					records[playerLocationY][playerLocationX] = 3;
+					arrows[playerLocationY][playerLocationX].setLocation(
+							arrows[playerLocationY][playerLocationX].getX() + 10,
+							arrows[playerLocationY][playerLocationX].getY() - 10);
+					arrows[playerLocationY][playerLocationX]
+							.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+					return;
+				case 0:
+					arrows[playerLocationY][playerLocationX].setLocation(
+							arrows[playerLocationY][playerLocationX].getX() + 10,
+							arrows[playerLocationY][playerLocationX].getY() + 10);
+					arrows[playerLocationY][playerLocationX]
+							.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+					return;
+				case 1:
+					arrows[playerLocationY][playerLocationX].setLocation(
+							arrows[playerLocationY][playerLocationX].getX() - 10,
+							arrows[playerLocationY][playerLocationX].getY() + 10);
+					arrows[playerLocationY][playerLocationX]
+							.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+					return;
+				case 2:
+					arrows[playerLocationY][playerLocationX].setLocation(
+							arrows[playerLocationY][playerLocationX].getX() - 10,
+							arrows[playerLocationY][playerLocationX].getY() - 10);
+					arrows[playerLocationY][playerLocationX]
+							.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+					return;
 				}
-
+			} else {
+				int number = records[playerLocationY][playerLocationX] += direction;
+				switch (number) {
+				case 1:
+					arrows[playerLocationY][playerLocationX].setLocation(
+							arrows[playerLocationY][playerLocationX].getX() - 10,
+							arrows[playerLocationY][playerLocationX].getY() - 10);
+					arrows[playerLocationY][playerLocationX]
+							.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+					return;
+				case 2:
+					arrows[playerLocationY][playerLocationX].setLocation(
+							arrows[playerLocationY][playerLocationX].getX() + 10,
+							arrows[playerLocationY][playerLocationX].getY() - 10);
+					arrows[playerLocationY][playerLocationX]
+							.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+					return;
+				case 3:
+					arrows[playerLocationY][playerLocationX].setLocation(
+							arrows[playerLocationY][playerLocationX].getX() + 10,
+							arrows[playerLocationY][playerLocationX].getY() + 10);
+					arrows[playerLocationY][playerLocationX]
+							.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+					return;
+				case 4:
+					records[playerLocationY][playerLocationX] = 0;
+					arrows[playerLocationY][playerLocationX].setLocation(
+							arrows[playerLocationY][playerLocationX].getX() - 10,
+							arrows[playerLocationY][playerLocationX].getY() + 10);
+					arrows[playerLocationY][playerLocationX]
+							.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+					return;
+				}
 			}
 		}
+
+	}
+
+	public void mangagerThread() {
+		new Thread(() -> {
+			boolean flag = playerLocationService.isGameClear();
+			while (!flag) {
+
+				flag = playerLocationService.isGameClear();
+			}
+			System.out.println("겜 클리어~!!");
+		}).start();
 	}
 
 	public static void main(String[] args) {
