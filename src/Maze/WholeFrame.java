@@ -18,8 +18,7 @@ public class WholeFrame extends JFrame {
 
 	private PlayerLocationService playerLocationService;
 	private JLabel backgroundMap;
-	private ImageIcon arrowIcon;
-	private JLabel[] arrows = new JLabel[25];
+	private JLabel[][] arrows = new JLabel[5][5];
 	private int[][] records = new int[5][5];
 	private Player player;
 	private Arrow arrow;
@@ -60,26 +59,26 @@ public class WholeFrame extends JFrame {
 		for (int i = 0; i < 5; i++) {
 			for(int j = 0; j< 5; j++) {
 				int randomNumber = rand.nextInt(4);
-				arrows[i] = new JLabel(this.arrow.getArrowImages(randomNumber));
-				records[i][j] = randomNumber;
-				arrows[i].setSize(90, 80);
-				backgroundMap.add(arrows[i]);
+				arrows[j][i] = new JLabel(this.arrow.getArrowImages(randomNumber));
+				records[j][i] = randomNumber;
+				arrows[j][i].setSize(90, 80);
+				backgroundMap.add(arrows[j][i]);
 				switch(randomNumber) {
 				// left
 				case 0:
-					arrows[i].setLocation(arrowX, arrowY);
+					arrows[j][i].setLocation(arrowX, arrowY);
 					break;
 				// right
 				case 1:
-					arrows[i].setLocation(arrowX, arrowY-20);
+					arrows[j][i].setLocation(arrowX, arrowY-20);
 					break;
 				// up
 				case 2:
-					arrows[i].setLocation(arrowX-10, arrowY-10);
+					arrows[j][i].setLocation(arrowX-10, arrowY-10);
 					break;
 				// down
 				case 3:
-					arrows[i].setLocation(arrowX+10, arrowY-10);
+					arrows[j][i].setLocation(arrowX+10, arrowY-10);
 					break;
 				}
 				arrowX += 180;
@@ -123,8 +122,9 @@ public class WholeFrame extends JFrame {
 				case KeyEvent.VK_UP:
 					
 					int playerX = playerLocationService.getPlayerX();
-					int playerY = playerLocationService.getPlayerY();					
+					int playerY = playerLocationService.getPlayerY();				
 					player.space(records[playerY][playerX]+1);
+					arrows[0][0].setIcon(arrow.getArrowImages(0));
 					break;
 				case KeyEvent.VK_RIGHT:
 					if (!player.isRight()) {

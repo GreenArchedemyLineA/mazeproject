@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 public class Arrow extends JLabel{
 
 	private ImageIcon[] arrowImages = new ImageIcon[4];
-	private String[] imageName = {"L", "R", "U", "D"};
+	private String[] imageName = {"images/arrowL.png", "images/arrowR.png", "images/arrowU.png", "images/arrowD.png"};
 	
 	public Arrow() {
 		initData();
@@ -21,7 +21,7 @@ public class Arrow extends JLabel{
 	private void initData() {
 		for(int i = 0; i<imageName.length; i++) {
 //			System.out.println("images/arrow+"+ imageName[i] +".png");
-			ImageIcon arrowOriginIcon = new ImageIcon("images/arrow"+ imageName[i] +".png");
+			ImageIcon arrowOriginIcon = new ImageIcon(imageName[i]);
 			Image arrowImage = arrowOriginIcon.getImage();
 
 			Image changeScaleArrowImage = arrowImage.getScaledInstance(arrowOriginIcon.getIconWidth() / 2,
@@ -37,5 +37,9 @@ public class Arrow extends JLabel{
 
 	public ImageIcon getArrowImages(int number) {
 		return arrowImages[number];
+	}
+	
+	public void setArrowImages(int number) {
+		setIcon(arrowImages[number]);
 	}
 }
