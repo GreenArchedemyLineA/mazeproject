@@ -105,11 +105,11 @@ public class Player extends JLabel implements Movable {
 				setLocation(this.x, this.y);
 				break;
 			case 2:
-				this.x += 180;
+				this.y -= 90;
 				setLocation(this.x, this.y);
 				break;
 			case 3:
-				this.y -= 90;
+				this.x += 180;
 				setLocation(this.x, this.y);
 				break;
 			case 4:

@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 public class Arrow extends JLabel{
 
 	private ImageIcon[] arrowImages = new ImageIcon[4];
-	private String[] imageName = {"images/arrowL.png", "images/arrowR.png", "images/arrowU.png", "images/arrowD.png"};
+	private String[] imageName = {"images/arrowL.png", "images/arrowU.png", "images/arrowR.png", "images/arrowD.png"};
 	
 	public Arrow() {
 		initData();

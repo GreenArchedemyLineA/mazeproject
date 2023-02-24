@@ -17,78 +17,39 @@ import javax.swing.JLabel;
 public class WholeFrame extends JFrame {
 
 	private PlayerLocationService playerLocationService;
+	private ImageIcon changeScaleIcon;
 	private JLabel backgroundMap;
 	private JLabel[][] arrows = new JLabel[5][5];
 	private int[][] records = new int[5][5];
 	private Player player;
 	private Arrow arrow;
 
+	private KeyService keyService;
+	
+	// RedKey:시계, BlueKey:반시계
+	private RedKey redkey;
+	private BlueKey bluekey;
 
 	private int backgroundMapWidth;
 	private int backgroundMapHeight;
 
 	public WholeFrame() {
 		this.playerLocationService = new PlayerLocationService();
-		// =========김유주 작성===========
-
 		initData();
 		setInitLayout();
 		addEventListener();
 	}
 
 	private void initData() {
-		Random rand = new Random();
+		setSizeImageIcon(); // 복잡해서 함수로 따로빼냄
 		this.arrow = new Arrow();
-		ImageIcon icon = new ImageIcon("images/background.png");
-		Image backgroundImage = icon.getImage();
-		this.backgroundMapWidth = icon.getIconWidth() / 2;
-		this.backgroundMapHeight = icon.getIconHeight() / 2;
-		Image changeScaleImage = backgroundImage.getScaledInstance(this.backgroundMapWidth, this.backgroundMapHeight,
-				Image.SCALE_SMOOTH);
-		ImageIcon changeScaleIcon = new ImageIcon(changeScaleImage);
-
-		backgroundMap = new JLabel(changeScaleIcon);
-
-		// ============================================
-
 		this.backgroundMap = new JLabel(changeScaleIcon);
 		this.player = new Player(this.playerLocationService);
 		this.backgroundMap.add(player);
-		int arrowX = 30;
-		int arrowY = 30;
-		for (int i = 0; i < 5; i++) {
-			for(int j = 0; j< 5; j++) {
-				int randomNumber = rand.nextInt(4);
-				arrows[j][i] = new JLabel(this.arrow.getArrowImages(randomNumber));
-				records[j][i] = randomNumber;
-				arrows[j][i].setSize(90, 80);
-				backgroundMap.add(arrows[j][i]);
-				switch(randomNumber) {
-				// left
-				case 0:
-					arrows[j][i].setLocation(arrowX, arrowY);
-					break;
-				// right
-				case 1:
-					arrows[j][i].setLocation(arrowX, arrowY-20);
-					break;
-				// up
-				case 2:
-					arrows[j][i].setLocation(arrowX-10, arrowY-10);
-					break;
-				// down
-				case 3:
-					arrows[j][i].setLocation(arrowX+10, arrowY-10);
-					break;
-				}
-				arrowX += 180;
-				if (j == 4) {
-					arrowX = 30;
-					arrowY += 90;
-
-				}
-			}
-		}
+		this.keyService = new KeyService();
+		this.redkey = new RedKey();
+		this.bluekey = new BlueKey();
+		arrowRandomSetting(); // 복잡해서 함수로 따로빼냄2
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setContentPane(backgroundMap);
 		setSize(this.backgroundMapWidth, this.backgroundMapHeight);
@@ -118,13 +79,19 @@ public class WholeFrame extends JFrame {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
+				int playerX = playerLocationService.getPlayerX();
+				int playerY = playerLocationService.getPlayerY();
 				switch (e.getKeyCode()) {
+				case KeyEvent.VK_1:
+					setImageIcon(playerX, playerY, keyService.getDirectionService(redkey));
+					playerLocationService.testMazeArr();
+					break;
+				case KeyEvent.VK_2:
+					setImageIcon(playerX, playerY, keyService.getDirectionService(bluekey));
+					playerLocationService.testMazeArr();
+					break;
 				case KeyEvent.VK_UP:
-					
-					int playerX = playerLocationService.getPlayerX();
-					int playerY = playerLocationService.getPlayerY();				
-					player.space(records[playerY][playerX]+1);
-					arrows[0][0].setIcon(arrow.getArrowImages(0));
+					player.space(records[playerY][playerX] + 1);
 					break;
 				case KeyEvent.VK_RIGHT:
 					if (!player.isRight()) {
@@ -140,6 +107,126 @@ public class WholeFrame extends JFrame {
 
 			}
 		});
+	}
+
+	public void setSizeImageIcon() {
+		ImageIcon icon = new ImageIcon("images/background.png");
+		Image backgroundImage = icon.getImage();
+		this.backgroundMapWidth = icon.getIconWidth() / 2;
+		this.backgroundMapHeight = icon.getIconHeight() / 2;
+		Image changeScaleImage = backgroundImage.getScaledInstance(this.backgroundMapWidth, this.backgroundMapHeight,
+				Image.SCALE_SMOOTH);
+		this.changeScaleIcon = new ImageIcon(changeScaleImage);
+	}
+
+	public void arrowRandomSetting() {
+		Random rand = new Random();
+		int arrowX = 30;
+		int arrowY = 30;
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				int randomNumber = rand.nextInt(4);
+				arrows[i][j] = new JLabel(this.arrow.getArrowImages(randomNumber));
+				records[i][j] = randomNumber;
+				arrows[i][j].setSize(90, 80);
+				backgroundMap.add(arrows[i][j]);
+				switch (randomNumber) {
+				case 0:
+					arrows[i][j].setLocation(arrowX, arrowY);
+					break;
+				case 1:
+					arrows[i][j].setLocation(arrowX - 10, arrowY - 10);
+					break;
+				case 2:
+					arrows[i][j].setLocation(arrowX, arrowY - 20);
+					break;
+				case 3:
+					arrows[i][j].setLocation(arrowX + 10, arrowY - 10);
+					break;
+				}
+				arrowX += 180;
+				if (j == 4) {
+					arrowX = 30;
+					arrowY += 90;
+				}
+			}
+		}
+	}
+
+	public void setImageIcon(int playerLocationX, int playerLocationY, int direction) {
+		if (direction == 0) {
+			return;
+		} else {
+			if (records[playerLocationY][playerLocationX] + direction >= 4) {
+				records[playerLocationY][playerLocationX] = 0;
+				arrows[playerLocationY][playerLocationX].setLocation(
+						arrows[playerLocationY][playerLocationX].getX() - 10,
+						arrows[playerLocationY][playerLocationX].getY() + 10);
+				arrows[playerLocationY][playerLocationX]
+						.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+			} else if (records[playerLocationY][playerLocationY] + direction <= -1) {
+				records[playerLocationY][playerLocationX] = 3;
+				arrows[playerLocationY][playerLocationX].setLocation(
+						arrows[playerLocationY][playerLocationX].getX() + 10,
+						arrows[playerLocationY][playerLocationX].getY() - 10);
+				arrows[playerLocationY][playerLocationX]
+						.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+			} else {
+				if (direction < 0) {
+					int number = records[playerLocationY][playerLocationX] += direction;
+					switch (number) {
+					case 0:
+						arrows[playerLocationY][playerLocationX].setLocation(
+								arrows[playerLocationY][playerLocationX].getX() + 10,
+								arrows[playerLocationY][playerLocationX].getY() + 10);
+						arrows[playerLocationY][playerLocationX]
+								.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+						break;
+					case 1:
+						arrows[playerLocationY][playerLocationX].setLocation(
+								arrows[playerLocationY][playerLocationX].getX() - 10,
+								arrows[playerLocationY][playerLocationX].getY() + 10);
+						arrows[playerLocationY][playerLocationX]
+								.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+						break;
+					case 2:
+						arrows[playerLocationY][playerLocationX].setLocation(
+								arrows[playerLocationY][playerLocationX].getX() - 10,
+								arrows[playerLocationY][playerLocationX].getY() - 10);
+						arrows[playerLocationY][playerLocationX]
+								.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+						break;
+					}
+
+				} else {
+					int number = records[playerLocationY][playerLocationX] += direction;
+					switch (number) {
+					case 1:
+						arrows[playerLocationY][playerLocationX].setLocation(
+								arrows[playerLocationY][playerLocationX].getX()-10,
+								arrows[playerLocationY][playerLocationX].getY()-10);
+						arrows[playerLocationY][playerLocationX]
+								.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+						break;
+					case 2:
+						arrows[playerLocationY][playerLocationX].setLocation(
+								arrows[playerLocationY][playerLocationX].getX() + 10,
+								arrows[playerLocationY][playerLocationX].getY() - 10);
+						arrows[playerLocationY][playerLocationX]
+								.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+						break;
+					case 3:
+						arrows[playerLocationY][playerLocationX].setLocation(
+								arrows[playerLocationY][playerLocationX].getX() + 10,
+								arrows[playerLocationY][playerLocationX].getY() + 10);
+						arrows[playerLocationY][playerLocationX]
+								.setIcon(arrow.getArrowImages(records[playerLocationY][playerLocationX]));
+						break;
+					}
+				}
+
+			}
+		}
 	}
 
 	public static void main(String[] args) {
