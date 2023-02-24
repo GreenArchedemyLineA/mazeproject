@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 
 public class Player extends JLabel implements Movable {
 
-	private final int DELAY = 100;
+	private final int DELAY = 30;
 	private int x;
 	private int y;
 
@@ -19,8 +19,6 @@ public class Player extends JLabel implements Movable {
 	private boolean space; // 포털타기
 	private final int Speed = 1; // 캐릭터 이동 속도
 	private final int Jumpspeed = 1; // 캐릭터 점프 속도
-
-	private boolean WallCrash; // 벽 충돌 여부
 
 	private ImageIcon playerR, playerL;
 	private PlayerLocationService playerLocationService;
@@ -148,15 +146,5 @@ public class Player extends JLabel implements Movable {
 	public int getY() {
 		return y;
 	}
-
-	public boolean isWallCrash() {
-		return WallCrash;
-	}
-
-	public void setWallCrash(boolean wallCrash) {
-		WallCrash = wallCrash;
-	}
-	
-
 
 }

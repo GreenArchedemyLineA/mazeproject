@@ -24,25 +24,18 @@ public class BackgroundPlayerService implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-//			System.out.println(player.getX());
-//			System.out.println("RGB: " + Integer.toHexString(image.getRGB(player.getX()+100, player.getY()-20)));
-			System.out.println(new Color(image.getRGB(player.getX(), player.getY())).getRed());
-//			if (leftWallColor + rightWallColor == -18611714) {
-//				try {
-//					Thread.sleep(3000);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				System.out.println("충돌");
+
+			Color rightColor = new Color(image.getRGB(player.getX() + 50, player.getY()));
+			Color leftColor = new Color(image.getRGB(player.getX(), player.getY()));
+
+			if (leftColor.getRed() != 0) {
+				player.setLeft(false);
+
+			} else if (rightColor.getRed() != 0) {
+				player.setRight(false);
+			}
 
 		}
 
-//			int ColorLeft = image.getRGB(player.getX(), player.getY());
-//			int ColorRight = image.getRGB(player.getX() + , player.getY()  );
-//			System.out.println(ColorLeft);
-//			System.out.println(player.getX());
-
 	}
-
 }
