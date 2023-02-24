@@ -18,6 +18,7 @@ public class StatePanel extends JPanel {
 		
 		this.redImage = new ImageIcon("images/redkey.png").getImage();
 		this.blueImage = new ImageIcon("images/bluekey.png").getImage();
+		
 	}
 	public void setKeyCount(Key key) {
 		if (key instanceof RedKey) {
@@ -35,13 +36,18 @@ public class StatePanel extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		
-		g.drawImage(redImage, 10, 20, 60, 60, null);
-		g.drawImage(blueImage, 10, 80, 60, 60, null);
-		g.drawString(":", 100, 60);
-		g.drawString(":", 100, 110);
-		g.drawString(String.valueOf(redCount), 120, 60);
-		g.drawString(String.valueOf(blueCount), 120, 120);
+		if(this.redCount == 0 && this.blueCount == 0) {
+			g.drawString("게임오버", 50, 60);
+			g.drawString("5번을 눌러", 40, 90);
+			g.drawString("게임 초기화", 35, 120);
+		}else {
+			g.drawImage(redImage, 10, 20, 60, 60, null);
+			g.drawImage(blueImage, 10, 80, 60, 60, null);
+			g.drawString(":", 100, 60);
+			g.drawString(":", 100, 110);
+			g.drawString(String.valueOf(redCount), 120, 60);
+			g.drawString(String.valueOf(blueCount), 120, 120);
+		}
 	}
 
 	

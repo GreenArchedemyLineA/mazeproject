@@ -35,7 +35,6 @@ public class WholeFrame extends JFrame {
 	private int backgroundMapHeight;
 
 	public WholeFrame() {
-		this.playerLocationService = new PlayerLocationService();
 		initData();
 		setInitLayout();
 		addEventListener();
@@ -44,6 +43,7 @@ public class WholeFrame extends JFrame {
 	}
 
 	private void initData() {
+		this.playerLocationService = new PlayerLocationService();
 		setSizeImageIcon(); // 복잡해서 함수로 따로빼냄
 		this.arrow = new Arrow();
 		this.backgroundMap = new JLabel(changeScaleIcon);
@@ -116,8 +116,14 @@ public class WholeFrame extends JFrame {
 						player.left();
 					}
 					break;
+				case KeyEvent.VK_5:
+					reset();
+					break;
 				}
-
+			}
+			public void reset() {
+				initData();
+				setInitLayout();
 			}
 		});
 	}
