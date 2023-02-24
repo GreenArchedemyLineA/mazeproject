@@ -118,7 +118,7 @@ public class WholeFrame extends JFrame {
 	}
 
 	public void setSizeImageIcon() {
-		ImageIcon icon = new ImageIcon("images/backgroundService3.png");
+		ImageIcon icon = new ImageIcon("images/background.png");
 		Image backgroundImage = icon.getImage();
 		this.backgroundMapWidth = icon.getIconWidth() / 2;
 		this.backgroundMapHeight = icon.getIconHeight() / 2;
