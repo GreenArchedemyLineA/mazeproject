@@ -124,7 +124,7 @@ public class PlayerLocationService implements Movable {
 	public int getPlayerY() {
 		return playerY;
 	}
-	
+
 	public boolean isGameClear() {
 		return this.gameClear;
 	}

@@ -23,6 +23,7 @@ public class WholeFrame extends JFrame {
 	private int[][] records = new int[5][5];
 	private Player player;
 	private Arrow arrow;
+	private Monster monster;
 
 	private KeyService keyService;
 
@@ -40,15 +41,18 @@ public class WholeFrame extends JFrame {
 		addEventListener();
 		mangagerThread();
 		new Thread(new BackgroundPlayerService(player)).start();
+		new Thread(new BackgroundMonsterService(monster)).start();
 	}
 
 	private void initData() {
 		this.playerLocationService = new PlayerLocationService();
 		setSizeImageIcon(); // 복잡해서 함수로 따로빼냄
-		this.arrow = new Arrow();
+;		this.arrow = new Arrow();
 		this.backgroundMap = new JLabel(changeScaleIcon);
 		this.player = new Player(this.playerLocationService);
 		this.backgroundMap.add(player);
+		this.monster = new Monster();
+		this.backgroundMap.add(monster);
 		this.keyService = new KeyService();
 		this.redkey = new RedKey();
 		this.bluekey = new BlueKey();
@@ -99,10 +103,10 @@ public class WholeFrame extends JFrame {
 					repaint();
 					break;
 				case KeyEvent.VK_UP:
-					if(playerX == 4 && playerY == 4 && records[playerY][playerX] == 3) {
+					if (playerX == 4 && playerY == 4 && records[playerY][playerX] == 3) {
 						player.setEnd();
 						playerLocationService.setGameClear(true);
-					}else {						
+					} else {
 						player.space(records[playerY][playerX] + 1);
 					}
 					break;
@@ -121,6 +125,7 @@ public class WholeFrame extends JFrame {
 					break;
 				}
 			}
+
 			public void reset() {
 				initData();
 				setInitLayout();
@@ -250,12 +255,12 @@ public class WholeFrame extends JFrame {
 	public void mangagerThread() {
 		new Thread(() -> {
 			while (playerLocationService.isGameClear()) {
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			System.out.println("겜 클리어~!!");
 		}).start();

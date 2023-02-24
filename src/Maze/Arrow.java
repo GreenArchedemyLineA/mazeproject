@@ -19,7 +19,7 @@ public class Arrow extends JLabel {
 
 	private void initData() {
 		for (int i = 0; i < imageName.length; i++) {
-//			System.out.println("images/arrow+"+ imageName[i] +".png");
+
 			ImageIcon arrowOriginIcon = new ImageIcon(imageName[i]);
 
 			Image arrowImage = arrowOriginIcon.getImage();
