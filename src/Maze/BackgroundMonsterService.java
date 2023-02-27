@@ -44,7 +44,7 @@ public class BackgroundMonsterService implements Runnable {
 			try {
 				Thread.sleep(15);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				break;
 			}
 		}
 

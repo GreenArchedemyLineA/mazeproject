@@ -38,16 +38,19 @@ public class WholeFrame extends JFrame {
 	public WholeFrame() {
 		initData();
 		setInitLayout();
-		addEventListener();
-		mangagerThread();
-		new Thread(new BackgroundPlayerService(player)).start();
-		new Thread(new BackgroundMonsterService(monster)).start();
+		Thread playerService = new Thread(new BackgroundPlayerService(player));
+		Thread monsterService = new Thread(new BackgroundMonsterService(monster));
+		playerService.start();
+		monsterService.start();
+		addEventListener(playerService, monsterService);
+		
+//		mangagerThread();
 	}
 
 	private void initData() {
 		this.playerLocationService = new PlayerLocationService();
 		setSizeImageIcon(); // 복잡해서 함수로 따로빼냄
-;		this.arrow = new Arrow();
+		this.arrow = new Arrow();
 		this.backgroundMap = new JLabel(changeScaleIcon);
 		this.player = new Player(this.playerLocationService);
 		this.backgroundMap.add(player);
@@ -73,7 +76,7 @@ public class WholeFrame extends JFrame {
 		setVisible(true);
 	}
 
-	public void addEventListener() {
+	public void addEventListener(Thread playerThread, Thread monsterThread) {
 		this.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -111,12 +114,12 @@ public class WholeFrame extends JFrame {
 					}
 					break;
 				case KeyEvent.VK_RIGHT:
-					if (!player.isRight()) {
+					if (!player.isRight() && !player.isRightWallCrash()) {
 						player.right();
 					}
 					break;
 				case KeyEvent.VK_LEFT:
-					if (!player.isLeft()) {
+					if (!player.isLeft() && !player.isLeftWallCrash()) {
 						player.left();
 					}
 					break;
@@ -126,9 +129,17 @@ public class WholeFrame extends JFrame {
 				}
 			}
 
-			public void reset() {
-				initData();
-				setInitLayout();
+			public void reset(){
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				playerThread.interrupt();
+				monsterThread.interrupt();
+				dispose();
+				new WholeFrame();
 			}
 		});
 	}

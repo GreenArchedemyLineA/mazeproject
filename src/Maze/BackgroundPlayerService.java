@@ -27,14 +27,22 @@ public class BackgroundPlayerService implements Runnable {
 
 			Color rightColor = new Color(image.getRGB(player.getX() + 50, player.getY()));
 			Color leftColor = new Color(image.getRGB(player.getX(), player.getY()));
-
+			
 			if (leftColor.getRed() != 0) {
 				player.setLeft(false);
-
+				player.setLeftWallCrash(true);
 			} else if (rightColor.getRed() != 0) {
 				player.setRight(false);
+				player.setRightWallCrash(true);
+			} else {
+				player.setLeftWallCrash(false);
+				player.setRightWallCrash(false);
 			}
-
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				break;
+			}
 		}
 
 	}
