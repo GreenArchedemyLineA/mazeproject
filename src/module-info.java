@@ -1,3 +1,3 @@
-module bubble {
+module mazeproject {
 	requires java.desktop;
 }

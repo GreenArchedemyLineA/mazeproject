@@ -40,3 +40,8 @@
 ![Alt Text](./gif/gamePlay.gif)
 ## 게임종료 및 게임 리셋
 ![Alt Text](./gif/InitOver.gif)
+ 
+<br>
+
+# 개발3일차(월)
+

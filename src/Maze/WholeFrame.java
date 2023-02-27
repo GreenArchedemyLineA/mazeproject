@@ -1,8 +1,12 @@
 package Maze;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -48,7 +52,7 @@ public class WholeFrame extends JFrame {
 		playerService.start();
 		monsterService.start();
 		addEventListener(playerService, monsterService);
-		managerThread(playerService, monsterService);
+		managerThread();
 
 	}
 
@@ -72,15 +76,17 @@ public class WholeFrame extends JFrame {
 		setContentPane(backgroundMap);
 		setSize(this.backgroundMapWidth, this.backgroundMapHeight);
 		this.backgroundMusicService = new BGM("backgroundmusic2.wav");
-
+		this.button = new JButton("Game Clear!");
 	}
 
 	private void setInitLayout() {
 		if (playerLocationService.isGameClear()) {
-			button = new JButton("Game Clear!");
+			button.setBackground(Color.CYAN);
+			button.setFocusable(false);
+			button.setFont(new Font("맑은 고딕", Font.BOLD, 40));
 			button.setSize(300, 150);
 			button.setLocation(300, 250);
-			add(button);
+			add(button, 0);
 		}
 		add(this.statePanel);
 		setLayout(null);
@@ -157,6 +163,13 @@ public class WholeFrame extends JFrame {
 
 			}
 
+		});
+
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
 		});
 	}
 
@@ -279,7 +292,7 @@ public class WholeFrame extends JFrame {
 
 	}
 
-	public void managerThread(Thread playerThread, Thread monsterThread) {
+	public void managerThread() {
 		new Thread(() -> {
 			while (!playerLocationService.isGameClear()) {
 				try {
@@ -290,17 +303,8 @@ public class WholeFrame extends JFrame {
 				}
 
 			}
-			playerThread.interrupt();
-			monsterThread.interrupt();
 			setInitLayout();
 			System.out.println("겜 클리어~!!");
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.exit(0);
 		}).start();
 	}
 
