@@ -1,5 +1,7 @@
 package Maze;
 
+import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -13,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class WholeFrame extends JFrame {
 
@@ -34,6 +37,8 @@ public class WholeFrame extends JFrame {
 	private StatePanel statePanel;
 	private int backgroundMapWidth;
 	private int backgroundMapHeight;
+	private BGM backgroundMusicService;
+	JButton button;
 
 	public WholeFrame() {
 		initData();
@@ -43,8 +48,8 @@ public class WholeFrame extends JFrame {
 		playerService.start();
 		monsterService.start();
 		addEventListener(playerService, monsterService);
-		
-//		mangagerThread();
+		managerThread(playerService, monsterService);
+
 	}
 
 	private void initData() {
@@ -66,9 +71,17 @@ public class WholeFrame extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setContentPane(backgroundMap);
 		setSize(this.backgroundMapWidth, this.backgroundMapHeight);
+		this.backgroundMusicService = new BGM("backgroundmusic2.wav");
+
 	}
 
 	private void setInitLayout() {
+		if (playerLocationService.isGameClear()) {
+			button = new JButton("Game Clear!");
+			button.setSize(300, 150);
+			button.setLocation(300, 250);
+			add(button);
+		}
 		add(this.statePanel);
 		setLayout(null);
 		setResizable(false);
@@ -129,18 +142,21 @@ public class WholeFrame extends JFrame {
 				}
 			}
 
-			public void reset(){
+			public void reset() {
 				try {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				backgroundMusicService.playStop();
 				playerThread.interrupt();
 				monsterThread.interrupt();
 				dispose();
 				new WholeFrame();
+
 			}
+
 		});
 	}
 
@@ -263,17 +279,28 @@ public class WholeFrame extends JFrame {
 
 	}
 
-	public void mangagerThread() {
+	public void managerThread(Thread playerThread, Thread monsterThread) {
 		new Thread(() -> {
 			while (!playerLocationService.isGameClear()) {
 				try {
-					Thread.sleep(100);
+					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					break;
 				}
+
 			}
+			playerThread.interrupt();
+			monsterThread.interrupt();
+			setInitLayout();
 			System.out.println("겜 클리어~!!");
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.exit(0);
 		}).start();
 	}
 

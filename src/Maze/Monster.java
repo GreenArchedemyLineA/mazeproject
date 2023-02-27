@@ -65,7 +65,6 @@ public class Monster extends JLabel implements Movable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
 		}).start();
 
@@ -96,7 +95,7 @@ public class Monster extends JLabel implements Movable {
 	public void setLeft(boolean isLeft) {
 		this.isLeft = isLeft;
 	}
-	
+
 	public void setRight(boolean isRight) {
 		this.isRight = isRight;
 	}

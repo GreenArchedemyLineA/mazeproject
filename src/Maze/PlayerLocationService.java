@@ -71,7 +71,7 @@ public class PlayerLocationService implements Movable {
 			this.playerX = 0;
 			this.mazeArr[this.playerY][this.playerX] = 1;
 			this.movePossible = false;
-		} 
+		}
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class PlayerLocationService implements Movable {
 			this.playerX -= 1;
 			this.mazeArr[this.playerY][this.playerX] = 1;
 			this.movePossible = false;
-		} 
+		}
 	}
 
 	@Override
@@ -110,12 +110,11 @@ public class PlayerLocationService implements Movable {
 			this.mazeArr[this.playerY][this.playerX] = 1;
 			this.movePossible = true;
 		} catch (ArrayIndexOutOfBoundsException e) {
-			this.playerY -= 1;
+			this.playerY = MAPSIZE - 1;
 			this.mazeArr[this.playerY][this.playerX] = 1;
 			this.movePossible = false;
-		} 
+		}
 	}
-
 
 	public int getPlayerX() {
 		return playerX;
@@ -127,7 +126,9 @@ public class PlayerLocationService implements Movable {
 
 	public boolean isGameClear() {
 		return this.gameClear;
+
 	}
+
 	public void setGameClear(boolean gameClear) {
 		this.gameClear = gameClear;
 	}

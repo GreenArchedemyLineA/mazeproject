@@ -19,10 +19,10 @@ public class Player extends JLabel implements Movable {
 	private boolean space; // 포털타기
 	private final int Speed = 1; // 캐릭터 이동 속도
 	private final int Jumpspeed = 1; // 캐릭터 점프 속도
-	
+
 	private boolean leftWallCrash;
 	private boolean rightWallCrash;
-	
+
 	private ImageIcon playerR, playerL;
 	private PlayerLocationService playerLocationService;
 
@@ -128,9 +128,11 @@ public class Player extends JLabel implements Movable {
 	}
 
 	public void setEnd() {
-		this.y += 155;
+		this.y += 165;
 		setLocation(this.x, this.y);
+		setIcon(null);
 	}
+
 	public boolean isLeft() {
 		return isLeft;
 	}
@@ -170,5 +172,5 @@ public class Player extends JLabel implements Movable {
 	public void setRightWallCrash(boolean rightWallCrash) {
 		this.rightWallCrash = rightWallCrash;
 	}
-	
+
 }
