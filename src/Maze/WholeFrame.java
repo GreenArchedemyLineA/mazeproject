@@ -254,7 +254,7 @@ public class WholeFrame extends JFrame {
 
 	public void mangagerThread() {
 		new Thread(() -> {
-			while (playerLocationService.isGameClear()) {
+			while (!playerLocationService.isGameClear()) {
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
