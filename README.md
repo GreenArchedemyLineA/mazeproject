@@ -55,3 +55,6 @@
 
 복잡한 코드들을 메소드로 빼내거나   
 메소드명이 명확하지 않거나 불일치 한것들 코드명 수정   
+
+## 게임화면
+https://user-images.githubusercontent.com/83393868/221731186-6be008d6-7216-478c-95eb-6a202af8ae5a.mp4
