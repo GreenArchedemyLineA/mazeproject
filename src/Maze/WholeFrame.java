@@ -42,7 +42,7 @@ public class WholeFrame extends JFrame {
 	private int backgroundMapWidth;
 	private int backgroundMapHeight;
 	private BGM backgroundMusicService;
-	JButton button;
+	private JButton gameEndButton;
 
 	/**
 	 * 화살표 관련 설정 0: 왼쪽 1: 위쪽 2: 오른쪽 3: 아래쪽
@@ -138,21 +138,13 @@ public class WholeFrame extends JFrame {
 
 			// 리셋
 			public void reset() {
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				backgroundMusicService.playStop();
-				playerThread.interrupt();
-				monsterThread.interrupt();
 				dispose();
 				new WholeFrame();
 			}
 		});
 
-		button.addActionListener(new ActionListener() {
+		gameEndButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -230,7 +222,7 @@ public class WholeFrame extends JFrame {
 
 	private void setMusicService() {
 		this.backgroundMusicService = new BGM("backgroundmusic2.wav");
-		this.button = new JButton("Game Clear!");
+		this.gameEndButton = new JButton("Game Clear!");
 	}
 
 	private void setArrowImageIcon(int playerLocationX, int playerLocationY, int direction) {
@@ -309,12 +301,12 @@ public class WholeFrame extends JFrame {
 
 	private void gameClearButton() {
 		if (playerLocationService.isGameClear()) {
-			button.setBackground(Color.CYAN);
-			button.setFocusable(false);
-			button.setFont(new Font("맑은 고딕", Font.BOLD, 40));
-			button.setSize(300, 150);
-			button.setLocation(300, 250);
-			add(button, 0);
+			this.gameEndButton.setBackground(Color.CYAN);
+			this.gameEndButton.setFocusable(false);
+			this.gameEndButton.setFont(new Font("맑은 고딕", Font.BOLD, 40));
+			this.gameEndButton.setSize(300, 150);
+			this.gameEndButton.setLocation(300, 250);
+			add(this.gameEndButton, 0);
 		}
 	}
 
@@ -325,7 +317,7 @@ public class WholeFrame extends JFrame {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-					break;
+					e.printStackTrace();
 				}
 			}
 			setInitLayout();
