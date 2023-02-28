@@ -42,7 +42,7 @@ public class BackgroundMonsterService implements Runnable {
 			}
 
 			try {
-				Thread.sleep(15);
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				break;
 			}

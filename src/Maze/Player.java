@@ -11,15 +11,9 @@ public class Player extends JLabel implements Movable {
 	private int x;
 	private int y;
 
-	private int playerWidth;
-	private int playerHeight;
-
 	private boolean isLeft;
 	private boolean isRight;
-	private boolean space; // 포털타기
 	private final int Speed = 1; // 캐릭터 이동 속도
-	private final int Jumpspeed = 1; // 캐릭터 점프 속도
-
 	private boolean leftWallCrash;
 	private boolean rightWallCrash;
 
@@ -51,7 +45,6 @@ public class Player extends JLabel implements Movable {
 		this.isRight = false;
 		this.leftWallCrash = false;
 		this.rightWallCrash = false;
-		this.space = false;
 	}
 
 	public void setInitLayout() {
@@ -103,23 +96,22 @@ public class Player extends JLabel implements Movable {
 	}
 
 	public void space(int number) {
-		// 유주씨가 만들어놓은 어떠한 이벤트
 		boolean success = this.playerLocationService.move(number);
 		if (success) {
 			switch (number) {
-			case 1:
+			case 0:
 				this.x -= 180;
 				setLocation(this.x, this.y);
 				break;
-			case 2:
+			case 1:
 				this.y -= 90;
 				setLocation(this.x, this.y);
 				break;
-			case 3:
+			case 2:
 				this.x += 180;
 				setLocation(this.x, this.y);
 				break;
-			case 4:
+			case 3:
 				this.y += 90;
 				setLocation(this.x, this.y);
 				break;

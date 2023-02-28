@@ -44,6 +44,10 @@ public class WholeFrame extends JFrame {
 	private BGM backgroundMusicService;
 	JButton button;
 
+	/**
+	 * 화살표 관련 설정 0: 왼쪽 1: 위쪽 2: 오른쪽 3: 아래쪽
+	 */
+
 	public WholeFrame() {
 		initData();
 		setInitLayout();
@@ -53,49 +57,33 @@ public class WholeFrame extends JFrame {
 		monsterService.start();
 		addEventListener(playerService, monsterService);
 		managerThread();
-
 	}
 
 	private void initData() {
 		this.playerLocationService = new PlayerLocationService();
-		setSizeImageIcon(); // 복잡해서 함수로 따로빼냄
-		this.arrow = new Arrow();
-		this.backgroundMap = new JLabel(changeScaleIcon);
-		this.player = new Player(this.playerLocationService);
-		this.backgroundMap.add(player);
-		this.monster = new Monster();
-		this.backgroundMap.add(monster);
 		this.keyService = new KeyService();
-		this.redkey = new RedKey();
-		this.bluekey = new BlueKey();
-		arrowRandomSetting(); // 복잡해서 함수로 따로빼냄2
-		this.statePanel = new StatePanel(this.redkey, this.bluekey);
-		this.statePanel.setSize(200, 200);
-		this.statePanel.setLocation(0, this.backgroundMapHeight - 200);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setContentPane(backgroundMap);
-		setSize(this.backgroundMapWidth, this.backgroundMapHeight);
-		this.backgroundMusicService = new BGM("backgroundmusic2.wav");
-		this.button = new JButton("Game Clear!");
+		backgroundSetImageIcon();
+		playerSetImageIcon();
+		monsterSetImageIcon();
+		gameArrowRandomSetting();
+		userSetKey();
+		setStatePanel();
+		setMusicService();
+		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		super.setContentPane(backgroundMap);
+		super.setSize(this.backgroundMapWidth, this.backgroundMapHeight);
 	}
 
 	private void setInitLayout() {
-		if (playerLocationService.isGameClear()) {
-			button.setBackground(Color.CYAN);
-			button.setFocusable(false);
-			button.setFont(new Font("맑은 고딕", Font.BOLD, 40));
-			button.setSize(300, 150);
-			button.setLocation(300, 250);
-			add(button, 0);
-		}
-		add(this.statePanel);
-		setLayout(null);
-		setResizable(false);
-		setLocationRelativeTo(null);
-		setVisible(true);
+		// 게임 클리어시 추가
+		gameClearButton();		super.add(this.statePanel);
+		super.setLayout(null);
+		super.setResizable(false);
+		super.setLocationRelativeTo(null);
+		super.setVisible(true);
 	}
 
-	public void addEventListener(Thread playerThread, Thread monsterThread) {
+	private void addEventListener(Thread playerThread, Thread monsterThread) {
 		this.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -115,21 +103,21 @@ public class WholeFrame extends JFrame {
 				int playerY = playerLocationService.getPlayerY();
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_1:
-					setImageIcon(playerX, playerY, keyService.getDirectionService(redkey));
+					setArrowImageIcon(playerX, playerY, keyService.getDirectionService(redkey));
 					statePanel.setKeyCount(redkey);
 					repaint();
 					break;
 				case KeyEvent.VK_2:
-					setImageIcon(playerX, playerY, keyService.getDirectionService(bluekey));
+					setArrowImageIcon(playerX, playerY, keyService.getDirectionService(bluekey));
 					statePanel.setKeyCount(bluekey);
 					repaint();
 					break;
 				case KeyEvent.VK_UP:
 					if (playerX == 4 && playerY == 4 && records[playerY][playerX] == 3) {
-						player.setEnd();
 						playerLocationService.setGameClear(true);
+						player.setEnd(); // 끝난건알겠는데 뭔가 끝난걸 설정함
 					} else {
-						player.space(records[playerY][playerX] + 1);
+						player.space(records[playerY][playerX]); // 이동하다 (부분적 의미)
 					}
 					break;
 				case KeyEvent.VK_RIGHT:
@@ -148,6 +136,7 @@ public class WholeFrame extends JFrame {
 				}
 			}
 
+			// 리셋
 			public void reset() {
 				try {
 					Thread.sleep(10);
@@ -160,9 +149,7 @@ public class WholeFrame extends JFrame {
 				monsterThread.interrupt();
 				dispose();
 				new WholeFrame();
-
 			}
-
 		});
 
 		button.addActionListener(new ActionListener() {
@@ -173,7 +160,8 @@ public class WholeFrame extends JFrame {
 		});
 	}
 
-	public void setSizeImageIcon() {
+	// 설정하는 메소드
+	private void backgroundSetImageIcon() {
 		ImageIcon icon = new ImageIcon("images/background.png");
 		Image backgroundImage = icon.getImage();
 		this.backgroundMapWidth = icon.getIconWidth() / 2;
@@ -181,9 +169,21 @@ public class WholeFrame extends JFrame {
 		Image changeScaleImage = backgroundImage.getScaledInstance(this.backgroundMapWidth, this.backgroundMapHeight,
 				Image.SCALE_SMOOTH);
 		this.changeScaleIcon = new ImageIcon(changeScaleImage);
+		this.backgroundMap = new JLabel(changeScaleIcon);
 	}
 
-	public void arrowRandomSetting() {
+	private void playerSetImageIcon() {
+		this.player = new Player(this.playerLocationService);
+		this.backgroundMap.add(player);
+	}
+
+	private void monsterSetImageIcon() {
+		this.monster = new Monster();
+		this.backgroundMap.add(monster);
+	}
+
+	private void gameArrowRandomSetting() {
+		this.arrow = new Arrow();
 		Random rand = new Random();
 		int arrowX = 30;
 		int arrowY = 30;
@@ -217,7 +217,23 @@ public class WholeFrame extends JFrame {
 		}
 	}
 
-	public void setImageIcon(int playerLocationX, int playerLocationY, int direction) {
+	private void userSetKey() {
+		this.redkey = new RedKey();
+		this.bluekey = new BlueKey();
+	}
+
+	private void setStatePanel() {
+		this.statePanel = new StatePanel(this.redkey, this.bluekey);
+		this.statePanel.setSize(200, 200);
+		this.statePanel.setLocation(0, this.backgroundMapHeight - 200);
+	}
+
+	private void setMusicService() {
+		this.backgroundMusicService = new BGM("backgroundmusic2.wav");
+		this.button = new JButton("Game Clear!");
+	}
+
+	private void setArrowImageIcon(int playerLocationX, int playerLocationY, int direction) {
 		if (direction == 0) {
 			return;
 		} else {
@@ -289,7 +305,17 @@ public class WholeFrame extends JFrame {
 				}
 			}
 		}
+	}
 
+	private void gameClearButton() {
+		if (playerLocationService.isGameClear()) {
+			button.setBackground(Color.CYAN);
+			button.setFocusable(false);
+			button.setFont(new Font("맑은 고딕", Font.BOLD, 40));
+			button.setSize(300, 150);
+			button.setLocation(300, 250);
+			add(button, 0);
+		}
 	}
 
 	public void managerThread() {
@@ -301,10 +327,8 @@ public class WholeFrame extends JFrame {
 					// TODO Auto-generated catch block
 					break;
 				}
-
 			}
 			setInitLayout();
-			System.out.println("겜 클리어~!!");
 		}).start();
 	}
 

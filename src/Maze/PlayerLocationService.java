@@ -12,10 +12,11 @@ public class PlayerLocationService implements Movable {
 		this.playerY = 0;
 		this.gameClear = false;
 		this.movePossible = true;
-		mazeInitial(this.mazeArr);
+		this.mazeArr = mazeInitial();
 	}
 
-	public int[][] mazeInitial(int[][] mazeArr) {
+	public int[][] mazeInitial() {
+		int[][] mazeArr = new int[this.MAPSIZE][this.MAPSIZE]; 
 		for (int i = 0; i < mazeArr.length; i++) { // 배열가로길이
 			for (int j = 0; j < mazeArr[0].length; j++) {
 				mazeArr[i][j] = 0;
@@ -26,7 +27,7 @@ public class PlayerLocationService implements Movable {
 	}
 
 	/**
-	 * 로직 테스트하는 코드(Test Code)
+	 * 배열창 확인하는 콘솔창 화면 코드(Test Code)
 	 */
 	public void testMazeArr() {
 		for (int i = 0; i < this.mazeArr.length; i++) {
@@ -44,16 +45,16 @@ public class PlayerLocationService implements Movable {
 	// MOVE
 	public boolean move(int directionState) {
 		switch (directionState) {
-		case 1:
+		case 0:
 			left();
 			break;
-		case 2:
+		case 1:
 			up();
 			break;
-		case 3:
+		case 2:
 			right();
 			break;
-		case 4:
+		case 3:
 			down();
 			break;
 		}
@@ -126,7 +127,6 @@ public class PlayerLocationService implements Movable {
 
 	public boolean isGameClear() {
 		return this.gameClear;
-
 	}
 
 	public void setGameClear(boolean gameClear) {

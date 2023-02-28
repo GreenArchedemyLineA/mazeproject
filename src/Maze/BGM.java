@@ -12,15 +12,14 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class BGM {
-	AudioInputStream bgm;
-	File file;
-	Clip bgmClip;
+	private AudioInputStream bgm;
+	private File musicFile;
+	private Clip bgmClip;
 
 	public BGM(String filePath) {
 		try {
-			this.file = new File(filePath);
-			this.bgm = AudioSystem.getAudioInputStream(this.file);
-			
+			this.musicFile = new File(filePath);
+			this.bgm = AudioSystem.getAudioInputStream(this.musicFile);
 			playSound();
 		} catch (UnsupportedAudioFileException e1) {
 			System.out.println("지원하지 않는 파일 형식입니다.");
@@ -48,7 +47,7 @@ public class BGM {
 			e2.printStackTrace();
 		}
 	}
-	
+
 	public void playStop() {
 		bgmClip.stop();
 	}
